@@ -1,0 +1,21 @@
+pip3 install -r requirements.txt
+export FLASK_APP=application.py
+export FLASK_DEBUG=1
+export DATABASE_URL=postgres://dimvnxbahzwdeo:c58261b32c592acc759aa60db9ddabaa411e239fcd1e7c094dedbe533dde2cf0@ec2-50-17-246-114.compute-1.amazonaws.com:5432/d860itt5dvul1c
+flask run
+
+
+Host
+ec2-50-17-246-114.compute-1.amazonaws.com
+Database
+d860itt5dvul1c
+User
+dimvnxbahzwdeo
+Port
+5432
+Password
+c58261b32c592acc759aa60db9ddabaa411e239fcd1e7c094dedbe533dde2cf0
+URI
+postgres://dimvnxbahzwdeo:c58261b32c592acc759aa60db9ddabaa411e239fcd1e7c094dedbe533dde2cf0@ec2-50-17-246-114.compute-1.amazonaws.com:5432/d860itt5dvul1c
+Heroku CLI
+heroku pg:psql postgresql-deep-51140 --app link-cat
