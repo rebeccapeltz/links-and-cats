@@ -1,3 +1,13 @@
 .main {
   margin-top:60px;
 }
+
+.brand {
+  font-size: 30px;
+  margin-right: 10px;
+  color: white;
+}
+.fa-id-badge {
+  font-size: 30px;
+  color: #6c757d;;
+}
