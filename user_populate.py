@@ -1,3 +1,4 @@
+import csv
 import os
 
 from flask import Flask, render_template, request
@@ -9,8 +10,9 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
 def main():
-    db.drop_all()
-    db.create_all()
+    user = User(email="becky@becky.com", firstname="beckyf", lastname="beckyl")
+    db.session.add(user)
+    db.session.commit()
 
 if __name__ == "__main__":
     with app.app_context():
