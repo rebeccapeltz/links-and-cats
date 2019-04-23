@@ -17,12 +17,17 @@ class User(db.Model):
     email = db.Column(db.String, nullable=False)
     firstname = db.Column(db.String, nullable=False)
     lastname = db.Column(db.String, nullable=False)
+    password = db.Column(db.String, nullable=False)
 
-    def __init__(self, email, firstname, lastname):
+    def __init__(self, email, firstname, lastname, password):
         self.id = uuid.uuid4().hex
         self.email = email
         self.firstname = firstname
         self.lastname = lastname
+        self.password = password
+
+    def __repr__(self):
+        return f"User {email} {firstname} {lastname}"
 
 
 Index('idx_user_email', func.lower(User.email))

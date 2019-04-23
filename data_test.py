@@ -16,12 +16,6 @@ def main():
     print (f"user {user.firstname} id: {user.id}")
 
 
-    # categories = Category.query.all()
-    # link1 = Link.query.filter_by(description="Google").first()
-    # link1.add_categories(categories)
-
-
-
     categories = Category.query.all()
     for cat in categories:
         print(f"{cat.description}")

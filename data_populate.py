@@ -11,7 +11,7 @@ db.init_app(app)
 
 def main():
     #create user
-    user = User(email="becky@becky.com", firstname="beckyf", lastname="beckyl")
+    user = User(email="becky@becky.com", firstname="beckyf", lastname="beckyl", password="password")
     db.session.add(user)
     db.session.commit()
 
