@@ -67,6 +67,8 @@ class Link(db.Model):
     def add_categories(self, category_list):
         for category in category_list:
             self.link_category.append(Link_Category(link=self, category=category))
+            db.session.commit()
+
       
     def __repr__(self):
         return f"Link: id {self.id} url: {self.url}"
