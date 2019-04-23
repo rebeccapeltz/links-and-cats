@@ -57,6 +57,7 @@ class Link(db.Model):
     __tablename__ = "links"
     id = db.Column(db.String, primary_key=True)
     url = db.Column(db.String, nullable=False)
+    public = db.Column(db.Boolean, default=True)
     description = db.Column(db.String, nullable=True)
     user_id = db.Column(db.String, db.ForeignKey("users.id"), nullable=False)
     categories = relationship("Category", secondary="link_category")

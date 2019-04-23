@@ -28,6 +28,9 @@ def index():
     current_user = None
     if (session.get("current_user") != None):
         current_user = session["current_user"]
+    # logged in or not, return all public links
+
+    # if user is logged in return the private links
     if request.method == "POST":
         #
         return render_template("index.html", current_user=current_user, title="Home")
