@@ -1,5 +1,17 @@
 # final-project
 
+## Data
+There is a many to many relationship between links and categories.  To bootstrap the data you can run these scripts in this order.
+1. data/create.py  Create the database  This script will drop all tables before creating
+2. data/populate_user.py  Create a user
+3. data/import_categories.py  Import categories from categories.csv
+4. data/populate_links.py Add links their categories
+
+If you want to manually delete data from tables, open a SQL window (pgAdmin 4)
+`delete from delete from link_category`
+`delete from categories`
+`delete from links`
+`delete from users`
 
 
 

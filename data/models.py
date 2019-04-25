@@ -62,11 +62,12 @@ class Link(db.Model):
     user_id = db.Column(db.String, db.ForeignKey("users.id"), nullable=False)
     categories = relationship("Category", secondary="link_category")
 
-    def __init__(self, url, description, user_id):
+    def __init__(self, url, description, user_id,public=True):
         self.id = uuid.uuid4().hex
         self.user_id = user_id
         self.url = url
         self.description = description
+        self.public = public
         self.categories=[]
     
     # param is a list of categories
