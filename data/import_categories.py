@@ -14,10 +14,12 @@ def main():
     filename = os.path.join(dirname, 'categories.csv')
     f = open(filename)
     reader = csv.reader(f)
-    for description in reader:
-        cat = Category(description=description[0])
-        db.session.add(cat)
-    db.session.commit()
+    for description in reader: 
+        count = Category.query.filter_by(description = description[0]).count()
+        if count <= 0:
+            cat = Category(description=description[0])
+            db.session.add(cat)
+            db.session.commit()
 
     categories = Category.query.all()
     for cat in categories:

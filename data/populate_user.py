@@ -15,7 +15,6 @@ def main():
     user = User(email="becky@becky.com", firstname="beckyf", lastname="beckyl", password="password")
     db.session.add(user)
     db.session.commit()
-    links = Link.query.all()
 
     users = User.query.all()
     for user in users:

@@ -22,6 +22,8 @@
 .card{
   margin-bottom: .5rem;
   box-shadow: 5px 5px 5px lightgrey;
+  height: 162px;
+  overflow-y: scroll;
 }
 .public {
   background-color: #FAF3B8;

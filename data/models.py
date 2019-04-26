@@ -54,19 +54,24 @@ class Link_Category(db.Model):
     def __repr__(self):
         return '<Link Category {}>'.format(self.link.url+" "+self.category.description)
 
+    def getPublicPrivateClass(self):
+        return "public" if self.public else "private"
+
 class Link(db.Model):
     __tablename__ = "links"
     id = db.Column(db.String, primary_key=True)
     url = db.Column(db.String, nullable=False)
     public = db.Column(db.Boolean, default=True)
-    description = db.Column(db.String, nullable=True)
+    title = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
     user_id = db.Column(db.String, db.ForeignKey("users.id"), nullable=False)
     categories = relationship("Category", secondary="link_category",lazy='joined')
 
-    def __init__(self, url, description, user_id,public=True):
+    def __init__(self, url, title, description, user_id,public=True):
         self.id = uuid.uuid4().hex
         self.user_id = user_id
         self.url = url
+        self.title = title
         self.description = description
         self.public = public
         self.categories=[]

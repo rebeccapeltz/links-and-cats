@@ -27,13 +27,13 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-block {{l.getPublicPrivateClass()}}">
-              <h4 class="card-title" >{{l.description}}</h4>
+              <h4 class="card-title" >{{l.title}}</h4>
               <p class="cat">
                 {% for c in l.categories %}
                   <span class="badge badge-secondary">{{c.description}}</span> 
                 {% endfor %}   
               </p>
-              <p class="card-text p-y-1">Some quick example text to build on the card title .</p>
+              <p class="card-text p-y-1">{{l.description}}</p>
               <a href="{{l.url}}" class="card-link" target="_blank"><span class="badge badge-info">View</span></a>
 
               

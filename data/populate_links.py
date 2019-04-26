@@ -9,8 +9,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
-def add_link_and_categories(user_id,url, description, cat_list, public=True):
-    link = Link(user_id=user_id,url=url, description=description, public=public)
+def add_link_and_categories(user_id,url,title, description, cat_list, public=True):
+    link = Link(user_id=user_id,url=url,title=title, description=description, public=public)
     link.add_categories(cat_list)
     db.session.add(link)
     db.session.commit()
@@ -30,11 +30,11 @@ def main():
     bills_cat = Category.query.filter_by(description="Bills").first()
     education_cat = Category.query.filter_by(description="Education").first()
 
-    add_link_and_categories(user.id,"https://www.google.com","Google",[work_cat,shopping_cat],public=True)
-    add_link_and_categories(user.id,"https://www.amazon.com","Amazon",[shopping_cat],public=True)
-    add_link_and_categories(user.id,"https://www.seattleu.edu","Seattle University",[shopping_cat, work_cat],public=True)
-    add_link_and_categories(user.id,"https://cs50.harvard.edu/web/2019/spring/","Harvard python class",[education_cat],public=False)
-    add_link_and_categories(user.id,"https://becu.com","Credit Union",[bills_cat],public=False)
+    add_link_and_categories(user.id,"https://www.google.com","Google","Global Search site",[work_cat,shopping_cat],public=True)
+    add_link_and_categories(user.id,"https://www.amazon.com","Amazon","Online Retail",[shopping_cat],public=True)
+    add_link_and_categories(user.id,"https://www.seattleu.edu","Seattle University","Jesuit University in Seattle, Wa",[shopping_cat, work_cat],public=True)
+    add_link_and_categories(user.id,"https://cs50.harvard.edu/web/2019/spring/","Python course","Python web course offered by Harvard Extension",[education_cat],public=False)
+    add_link_and_categories(user.id,"https://becu.com","Credit Union","Boeing Employees Credit Union has online bill pay",[bills_cat],public=False)
 
 
    
