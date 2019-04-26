@@ -27,11 +27,11 @@
                     &#9776;
                 </button>
                 <div class="collapse navbar-collapse" id="exCollapsingNavbar">
-                    <ul class="nav navbar-nav">
+                    <!-- <ul class="nav navbar-nav">
                         <li class="nav-item"><a href="#" class="nav-link">About</a></li>
-                    </ul>
+                    </ul> -->
                     <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
-                        {% if current_user %}
+                        {% if session["current_user"] %}
                         <li class="dropdown order-0">
                             <a href="#" class="nav-link" id="dropdownMenu0" data-toggle="dropdown"
                                 class="dropdown-toggle"><i class="fas fa-id-badge"></i>

@@ -1,10 +1,11 @@
 import os
 
 from flask import Flask, request, render_template, session, redirect, url_for
-from flask_session import Session
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
+# from flask_session import Session
+# from sqlalchemy import create_engine
+# from sqlalchemy.orm import scoped_session, sessionmaker
 from models import *
+from flask_session import Session
 
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
@@ -15,15 +16,16 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
-
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+app.config['SECRET_KEY'] = 'redsfsfsfsfis'
+sess = Session()
+sess.init_app(app)
 
-# Set up database
-# engine = create_engine(os.getenv("DATABASE_URL"))
-# db = scoped_session(sessionmaker(bind=engine))
+
+
+
 
 
 
@@ -31,8 +33,9 @@ Session(app)
 # current_user is session variable for a logged in user
 def index():
     current_user = None
+    session.pop('current_user", None)
     if (session.get("current_user") != None):
-        current_user = session["current_user"]
+        current_user = session.get("current_user")
     # logged in or not, return all public links
 
     # if user is logged in return the private links
@@ -75,6 +78,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         # write email to session
+        session.pop("current_user", None)
         session["current_user"] = user
         # send to index
         return redirect(url_for('index'))
@@ -83,7 +87,8 @@ def register():
 
 @app.route("/logout", methods=["POST"])
 def logout():
-    session["current_user"] = None
+    session.pop("current_user", None)
+    # session["current_user"] = None
     return redirect(url_for('index'))
 
 @app.route("/login", methods=["POST"])

@@ -6,6 +6,7 @@ from sqlalchemy import func, Index
 import uuid
 
 
+
 Base = declarative_base()
 
 db = SQLAlchemy()
