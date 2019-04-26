@@ -2,7 +2,7 @@
   margin-top:70px;
 }
 
-.brand {
+.fa-cat {
   font-size: 30px;
   margin-right: 10px;
   color: white;
@@ -14,4 +14,20 @@
 
 .dropdown {
   margin: 0 5px;
+}
+
+.card-block{
+  padding: .5rem;
+}
+.card{
+  margin-bottom: .5rem;
+  box-shadow: 5px 5px 5px lightgrey;
+}
+.public {
+  background-color: #FAF3B8;
+}
+.cat .badge-secondary {
+  font-weight: normal !important;
+  background-color: #BCDFE7 !important;
+  color: black;
 }

@@ -19,7 +19,7 @@ db.init_app(app)
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-app.config['SECRET_KEY'] = 'redsfsfsfsfis'
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 sess = Session()
 sess.init_app(app)
 
@@ -28,19 +28,24 @@ sess.init_app(app)
 # current_user is session variable for a logged in user
 def index():
     current_user = None
-    # session.pop('current_user", None)
-    if 'current_user' in session and not session["current_user"].id.startswith("Traceback"):
-        current_user = session["current_user"]
     # logged in or not, return all public links
-
-    # if user is logged in return the private links
-    if request.method == "POST":
-        #
-        return render_template("index.html", current_user=current_user, title="Home")
-    elif request.method == "GET":
-        return render_template("index.html", current_user=current_user, title="Home")
-    else:
-        return render_template("index.html", current_user=current_user, title="Home")
+    public_links = Link.query.filter_by(public=True).all()
+    private_links = None
+    
+    if 'current_user' in session:
+        current_user = session["current_user"]
+        
+        
+        # if user is logged in return the private links
+    # if request.method == "POST":
+    #     #
+    #     return render_template("index.html",title="Home")
+    # elif request.method == "GET":
+    #     return render_template("index.html", title="Home")
+    # else:
+    #     return render_template("index.html", title="Home")
+    return render_template("index.html", private_links=private_links, public_links=public_links,title="Home")
+    
 
 # returns empty array if input is valid
 

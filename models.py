@@ -79,6 +79,9 @@ class Link(db.Model):
       
     def __repr__(self):
         return f"Link: id {self.id} url: {self.url}"
+    
+    def getPublicPrivateClass(self):
+        return "public" if self.public else "private"
 
 
 class Category(db.Model):

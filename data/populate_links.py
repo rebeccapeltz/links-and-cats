@@ -32,7 +32,7 @@ def main():
 
     add_link_and_categories(user.id,"https://www.google.com","Google",[work_cat,shopping_cat],public=True)
     add_link_and_categories(user.id,"https://www.amazon.com","Amazon",[shopping_cat],public=True)
-    add_link_and_categories(user.id,"https://www.amazon.com","Amazon",[shopping_cat],public=True)
+    add_link_and_categories(user.id,"https://www.seattleu.edu","Seattle University",[shopping_cat, work_cat],public=True)
     add_link_and_categories(user.id,"https://cs50.harvard.edu/web/2019/spring/","Harvard python class",[education_cat],public=False)
     add_link_and_categories(user.id,"https://becu.com","Credit Union",[bills_cat],public=False)
 
