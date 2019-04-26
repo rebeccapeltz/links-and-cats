@@ -25,17 +25,13 @@ sess.init_app(app)
 
 
 
-
-
-
-
 @app.route("/", methods=["POST", "GET"])
 # current_user is session variable for a logged in user
 def index():
     current_user = None
-    session.pop('current_user", None)
-    if (session.get("current_user") != None):
-        current_user = session.get("current_user")
+    # session.pop('current_user", None)
+    if 'current_user' in session:
+        current_user = session["current_user"]
     # logged in or not, return all public links
 
     # if user is logged in return the private links
