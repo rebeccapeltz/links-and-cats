@@ -38,8 +38,8 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right mt-2">
                                 <li class="px-3 py-2">
-                                    <p>{{current_user.firstname}} {{current_user.lastname}}</p>
-                                    <p>{{current_user.email}}</p>
+                                    <p>{{session["current_user"].firstname}} {{current_user.lastname}}</p>
+                                    <p>{{session["current_user"].email}}</p>
                                     <div class="form-group text-center">
                                         <form autocomplete="off" class="form" role="form"
                                             action="{{ url_for('logout') }}" method="post">

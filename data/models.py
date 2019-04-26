@@ -43,8 +43,8 @@ class Link_Category(db.Model):
     link_id = Column(db.String, ForeignKey('links.id'), primary_key=True)
     category_id = Column(db.String, ForeignKey('categories.id'), primary_key=True)
 
-    link = relationship("Link", backref=backref("link_category", cascade="all, delete-orphan" ))
-    category = relationship("Category", backref=backref("link_category", cascade="all, delete-orphan" ))
+    link = relationship("Link", backref=backref("link_category", cascade="all, delete-orphan",lazy='joined' ))
+    category = relationship("Category", backref=backref("link_category", cascade="all, delete-orphan",lazy='joined' ))
 
     def __init__(self, link, category):
         self.id = uuid.uuid4().hex
@@ -61,7 +61,7 @@ class Link(db.Model):
     public = db.Column(db.Boolean, default=True)
     description = db.Column(db.String, nullable=True)
     user_id = db.Column(db.String, db.ForeignKey("users.id"), nullable=False)
-    categories = relationship("Category", secondary="link_category")
+    categories = relationship("Category", secondary="link_category",lazy='joined')
 
     def __init__(self, url, description, user_id,public=True):
         self.id = uuid.uuid4().hex
@@ -86,7 +86,7 @@ class Category(db.Model):
     __tablename__ = "categories"
     id = db.Column(db.String, primary_key=True)
     description = db.Column(db.String, nullable=False)
-    links = relationship("Link", secondary="link_category")
+    links = relationship("Link", secondary="link_category",lazy='joined')
 
     def __init__(self,description):
         self.id = uuid.uuid4().hex

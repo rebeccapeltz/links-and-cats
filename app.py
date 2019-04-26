@@ -24,13 +24,12 @@ sess = Session()
 sess.init_app(app)
 
 
-
 @app.route("/", methods=["POST", "GET"])
 # current_user is session variable for a logged in user
 def index():
     current_user = None
     # session.pop('current_user", None)
-    if 'current_user' in session:
+    if 'current_user' in session and not session["current_user"].id.startswith("Traceback"):
         current_user = session["current_user"]
     # logged in or not, return all public links
 
@@ -44,6 +43,8 @@ def index():
         return render_template("index.html", current_user=current_user, title="Home")
 
 # returns empty array if input is valid
+
+
 def validate_user(email, firstname, lastname, password, confirm_password):
     invalid = []
     if len(email) == 0:
@@ -57,6 +58,7 @@ def validate_user(email, firstname, lastname, password, confirm_password):
     if (password != confirm_password):
         invalid.append("Password must match Password confirm.")
     return invalid
+
 
 @app.route("/register", methods=["POST"])
 def register():
@@ -74,18 +76,21 @@ def register():
         db.session.add(user)
         db.session.commit()
         # write email to session
-        session.pop("current_user", None)
-        session["current_user"] = user
-        # send to index
-        return redirect(url_for('index'))
+        # session.pop("current_user", None) // this breaks the session and produces
+        # disconnected session error
+        # session["current_user"] = user
+        # send to index with success message
+        return render_template("index.html", title="Home", success_msg="Successful user registration.")
     else:
-        return render_template("index.html", title="Home", error_msg="Passwords don't match")
+        return render_template("index.html", title="Home", error_msg="Key in both email and password to login.")
+
 
 @app.route("/logout", methods=["POST"])
 def logout():
     session.pop("current_user", None)
     # session["current_user"] = None
     return redirect(url_for('index'))
+
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -95,8 +100,8 @@ def login():
     password_input = request.form.get("password-input")
     print(password_input)
     # validate
-    if len(email_input) == 0 or len (password_input) == 0:
-      return render_template("index.html", error_msg="Key in both email and password to login.",title="Home")
+    if len(email_input) == 0 or len(password_input) == 0:
+        return render_template("index.html", error_msg="Key in both email and password to login.", title="Home")
     # lookup in db
     try:
         user = User.query.filter_by(email=email_input).first()
@@ -107,5 +112,5 @@ def login():
     except Exception as inst:
         print(type(inst))    # the exception instance
         print(inst.args)     # arguments stored in .args
-        print(inst) 
+        print(inst)
         return render_template("index.html", error_msg="Problem finding registered user during login.", title="Home")
