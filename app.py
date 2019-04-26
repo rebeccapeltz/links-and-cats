@@ -34,7 +34,7 @@ def index():
     
     if 'current_user' in session:
         current_user = session["current_user"]
-        
+        private_links = Link.query.filter_by(public=False, user_id=current_user.id)
         
         # if user is logged in return the private links
     # if request.method == "POST":
