@@ -35,7 +35,7 @@ def index():
     
     if 'current_user' in session:
         current_user = session["current_user"]
-        private_links = Link.query.filter_by(public=False, user_id=current_user.id)
+        private_links = Link.query.filter_by(public=False, user_id=current_user.id).all()
     return render_template("index.html", private_links=private_links, public_links=public_links,title="Home")
     
 
@@ -149,10 +149,10 @@ def add_link():
         category_input = request.form.getlist("category-input")
         print("cat input", category_input)
         print(user_id, url_input, title_input, description_input, category_input,public)
-        # add link
-        # add categories
+        # add link and categories
+        # add_link_and_categories(user_id,url_input,title_input, description_input, cat_list, public)
         # go back to index with success message
-    return render_template("index.html", success_msg="Link successfully added.")
+    return redirect(url_for('index',success_msg="Link successfully added."))
 
 # UPDATE LINK: update an existing link
 @app.route("/update_link/<int:link_id>", methods=["GET","POST"])
