@@ -23,7 +23,8 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 sess = Session()
 sess.init_app(app)
 
-
+# HOME login/logout/show public links by defaul
+# if logged in show private links if any
 @app.route("/", methods=["POST", "GET"])
 # current_user is session variable for a logged in user
 def index():
@@ -53,7 +54,7 @@ def validate_user(email, firstname, lastname, password, confirm_password):
         invalid.append("Password must match Password confirm.")
     return invalid
 
-
+# REGISTER register a user but don't automatically login
 @app.route("/register", methods=["POST"])
 def register():
     # get data from form
@@ -78,14 +79,14 @@ def register():
     else:
         return render_template("index.html", title="Home", error_msg="Key in both email and password to login.")
 
-
+# LOGOUT: logout user
 @app.route("/logout", methods=["POST"])
 def logout():
     session.pop("current_user", None)
     # session["current_user"] = None
     return redirect(url_for('index'))
 
-
+# LOGIN: login user
 @app.route("/login", methods=["POST"])
 def login():
     # get data from form
@@ -113,3 +114,39 @@ def login():
 def form():
     return render_template("form.html")
 
+# ADD LINK: add a new link
+@app.route("/add_link", methods=["GET", "POST"])
+def add_link():
+    # if GET
+    # get a list of categories
+
+    # call form with categories
+
+    # if POST
+    # get data from form  
+    # add link
+    # add categories
+    # go back to index with success message
+    return render_template("form.html")
+
+# UPDATE LINK: update an existing link
+@app.route("/update_link/<int:link_id>", methods=["GET","POST"])
+def update_link(link_id):
+    # if GET
+    # get current data using link_id
+    # prepare to update checked categories
+
+    # if POST
+    # get data from form
+    # update link
+    # remove all categories
+    # add categories to link
+    # rerun update to stay on form
+    return render_template("form.html")
+
+# DELETE LINK delete an existing link
+@app.route("/delete_link/<int:link_id>", methods="[POST]")
+def delete_link(link_id):
+    # delete link category
+    # delete link
+    # go to home with success message
