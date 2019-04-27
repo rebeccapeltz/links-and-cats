@@ -1,5 +1,5 @@
 .main {
-  margin-top:70px;
+  margin-top: 70px;
 }
 
 .fa-cat {
@@ -7,45 +7,55 @@
   margin-right: 10px;
   color: white;
 }
+
 .fa-id-badge {
   font-size: 30px;
-  color: #6c757d;;
+  color: #6c757d;
+  ;
 }
 
 .dropdown {
   margin: 0 5px;
 }
 
-.card-block{
+.card-block {
   padding: .5rem;
   height: 100%;
 }
-.card{
+
+.card {
   margin-bottom: .5rem;
   box-shadow: 5px 5px 5px lightgrey;
   height: 200px;
   overflow-y: scroll;
 }
-.public-switch, .public {
+
+.public-switch,
+.public {
   background-color: #FAF3B8 !important;
   color: black !important;
 }
-.private-switch, .private {
+
+.private-switch,
+.private {
   background-color: #EEF7F9 !important;
   color: black;
 }
+
 .cat .badge-secondary {
   font-weight: normal !important;
   background-color: #BCDFE7 !important;
   color: black;
 }
-.public-row, .private-row{
+
+.public-row,
+.private-row {
   margin-bottom: 1rem;
 }
 
-.private-switch {
-
+.form-buttons {
+  list-style-type: none;
 }
-.both-switch {
-
+.form-buttons li{
+  display: inline-block;
 }

@@ -35,21 +35,10 @@ def index():
     if 'current_user' in session:
         current_user = session["current_user"]
         private_links = Link.query.filter_by(public=False, user_id=current_user.id)
-        
-        # if user is logged in return the private links
-    # if request.method == "POST":
-    #     #
-    #     return render_template("index.html",title="Home")
-    # elif request.method == "GET":
-    #     return render_template("index.html", title="Home")
-    # else:
-    #     return render_template("index.html", title="Home")
     return render_template("index.html", private_links=private_links, public_links=public_links,title="Home")
     
 
 # returns empty array if input is valid
-
-
 def validate_user(email, firstname, lastname, password, confirm_password):
     invalid = []
     if len(email) == 0:
@@ -119,3 +108,8 @@ def login():
         print(inst.args)     # arguments stored in .args
         print(inst)
         return render_template("index.html", error_msg="Problem finding registered user during login.", title="Home")
+
+@app.route("/form", methods=["GET","POST"])
+def form():
+    return render_template("form.html")
+
