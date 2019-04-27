@@ -110,24 +110,49 @@ def login():
         print(inst)
         return render_template("index.html", error_msg="Problem finding registered user during login.", title="Home")
 
-@app.route("/form", methods=["GET","POST"])
+@app.route("/form", methods=["GET"])
 def form():
-    return render_template("form.html")
+    categories = Category.query.all()
+    default_entry = {"public": True, "url": "http://www.example.com", "title":"Example","description":"Description","categories":"JavaScript"}
+    # print(default_entry)
+    return render_template("form.html",categories=categories, default_entry=default_entry)
+
+def add_link_and_categories(user_id,url,title, description, cat_list, public):
+    link = Link(user_id=user_id,url=url,title=title, description=description, public=public)
+    link.add_categories(cat_list)
+    db.session.add(link)
+    db.session.commit()
 
 # ADD LINK: add a new link
 @app.route("/add_link", methods=["GET", "POST"])
 def add_link():
+    categories = Category.query.all()
+    # default_entry = {}
+    default_entry = {"public": True, "url": "http://www.example.com", "title":"Example","description":"Description","categories":"JavaScript"}
     # if GET
-    # get a list of categories
-
-    # call form with categories
-
-    # if POST
-    # get data from form  
-    # add link
-    # add categories
-    # go back to index with success message
-    return render_template("form.html")
+    if request.method == "GET":
+        # get a list of categories
+        categories = Category.query.all()
+        # print(categories)
+        # call form with categories
+        return render_template("form.html",categories=categories, default_entry=default_entry)
+    elif request.method == "POST":
+        public = True #default
+        # get data from form 
+        user_id = session["current_user"].id
+        pubpriv_input = request.form.get("pubpriv-input")
+        if pubpriv_input == "private":
+            public = False
+        url_input = request.form.get("url-input")
+        title_input = request.form.get("title-input")
+        description_input = request.form.get("description-input")
+        category_input = request.form.getlist("category-input")
+        print("cat input", category_input)
+        print(user_id, url_input, title_input, description_input, category_input,public)
+        # add link
+        # add categories
+        # go back to index with success message
+    return render_template("index.html", success_msg="Link successfully added.")
 
 # UPDATE LINK: update an existing link
 @app.route("/update_link/<int:link_id>", methods=["GET","POST"])
@@ -145,8 +170,9 @@ def update_link(link_id):
     return render_template("form.html")
 
 # DELETE LINK delete an existing link
-@app.route("/delete_link/<int:link_id>", methods="[POST]")
+@app.route("/delete_link/<int:link_id>", methods=["POST"])
 def delete_link(link_id):
     # delete link category
     # delete link
     # go to home with success message
+    print(link_id)

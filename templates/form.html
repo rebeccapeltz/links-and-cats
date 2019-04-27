@@ -6,6 +6,8 @@
 <h1>Link Cat</h1>
 <h2>Categorized Links</h2>
 
+
+
 {% if error_msg %}
 <div class="alert alert-danger">
   <strong>Error!</strong> {{error_msg}}
@@ -25,45 +27,73 @@
     user_id = db.Column(db.String, db.ForeignKey("users.id"), nullable=False)
     categories  -->
 
-  <form>
+  <!-- if there is a link_id then its an update otherwise its an add -->
+  <form method="post"
+    action="{% if default_entry and default_entry.link_id %}{{url_for('update_link')}}{% else %}{{url_for('add_link')}}{% endif %}">
+    <div class="form-check-inline float-right">
+      <label class="form-check-label" for="pubpriv1">
+        <input type="radio" {% if default_entry is defined and  default_entry.public %} checked {% endif %}
+          value="public" class="form-check-input" id="pubpriv1" name="pubpriv-input">
+        Public
+      </label>
+    </div>
+    <div class="form-check-inline float-right">
+      <label class="form-check-label" for=pubpriv2>
+        <input type="radio" {% if default_entry is defined and not default_entry.public %} checked {% endif %}
+          value="private" class="form-check-input" id="pubpriv2" name="pubpriv-input">
+        Private
+      </label>
+    </div>
     <div class="form-group">
       <label for="url-input">URL</label>
-      <input type="url" class="form-control" name="url-input" id="url-input" placeholder="https://www.example.com">
+      <input type="url" class="form-control" name="url-input" id="url-input"
+        value="{% if default_entry is defined and default_entry.url %} {{default_entry.url}}  {% endif %} "
+        placeholder="https://www.example.com">
     </div>
     <div class="form-group">
       <label for="title">Title</label>
-      <input type="text" class="form-control" name="url-title" id="url-title" placeholder="Title">
+      <input type="text" class="form-control" name="title-input" id="title-input"
+        value="{% if default_entry is defined and default_entry.title %} {{default_entry.title}}  {% endif %} "
+        placeholder="Title">
     </div>
     <div class="form-group">
       <label for="description">Description</label>
-      <input type="text" class="form-control" name="description-title" id="description-title" placeholder="Description">
+      <input type="text" class="form-control"
+        value="{% if default_entry is defined and default_entry.description %} {{default_entry.description}}  {% endif %} "
+        name="description-input" id="description-input" lder="Description">
     </div>
     <p>Categories</p>
-    {% if categories %}
-    {% for c in categories %}
-    <div class="form-group">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="{{c.description}}" name="categories"
-          id="cat{{loop.index0}}">
-        <label class="form-check-label" for="cat{{loop.index0}}">
-          JavaScript
-        </label>
-      </div>
-    </div>
-    {% endfor %}
-    {% else %}
+    {% if not categories %}
     <p>No categories available</p>
+    {% else %}
+    <div class="cat-group">
+      {% for c in categories %}
+      <div class="form-group">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{c.description}}"
+            {% if categories is defined and c.description in default_entry.categories %} checked {% endif %}
+            name="category-input" id="cat{{loop.index0}}">
+          <label class="form-check-label" for="cat{{loop.index0}}">
+            {{c.description}}
+          </label>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
     {% endif %}
-   <ul class="form-buttons">
+    <ul class="form-buttons">
+      {%if default_entry is defined and default_entry.link_id is not defined %}
       <li>
-        <a href="{{ url_for('form') }}" role="button" class="btn btn-info btn-large">Add</a>
+        <button type="sumbit" class="btn btn-info btn-large">Add Link</button>
+      </li>
+      {% else %}
+      <li>
+        <button type="sumbit" class="btn btn-info btn-large">Update Link</button>
       </li>
       <li>
-        <a href="{{ url_for('form') }}" role="button" class="btn btn-info btn-large">Update</a>
+        <button type="submit" class="btn btn-info btn-large">Delete Link</button>
       </li>
-      <li>
-        <a href="{{ url_for('form') }}" role="button" class="btn btn-info btn-large">Delete</a>
-      </li>
+      {% endif %}
     </ul>
   </form>
 </section>
