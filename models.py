@@ -75,6 +75,9 @@ class Link(db.Model):
             self.link_category.append(Link_Category(link=self, category=category))
             db.session.commit()
 
+    def remove_category(self, category):
+        self.categories.remove(category)
+
     def update_categories(self, category_list):
         # don't attempt a merge - just remove all and add all
         self.link_category.clear()

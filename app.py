@@ -237,7 +237,7 @@ def process_update_link():
     if user_id is None:
         return redirect(url_for('index', error_msg="Error: Can't update link unless logged in."))
 
-    print("process update")
+    # print("process update")
     # get data from form
     public = True  # default
     # get data from form
@@ -287,6 +287,21 @@ def checkForDuplicateCat(new_cat):
     return is_duplicate
 
 # ADD new category
+@app.route("/delete_category", methods=["POST"])
+def delete_category():
+    desc_input = request.form.get("desc-input") 
+    del_cat = Category.query.filter_by(description=desc_input).first()
+    # remove this category from all link category collections
+    links = del_cat.link_category
+    for link in links:
+        link.remove_category(del_cat)
+    db.session.delete(del_cat)
+    db.session.commit()
+    categories = Category.query.all()
+    return redirect(url_for('manage_categories',categories=categories, success_msg="Category deleted."))
+
+
+# ADD new category
 @app.route("/add_category", methods=["POST"])
 def add_category():
     desc_input = request.form.get("desc-input") #add
@@ -311,12 +326,16 @@ def update_category():
     print(desc_input_orig, desc_input_new)
     orig_cat = Category.query.filter_by(description=desc_input_orig).first()
     #check for duplicate
+    categories = Category.query.all()
+    if checkForDuplicateCat(desc_input_new):
+        return redirect(url_for('manage_categories',categories=categories, error_msg="Cannot rename a category to one that exists."))
+
     if len(desc_input_new) == 0: #error
         return redirect(url_for('manage_categories',categories=categories, error_msg="Category must have at least 1 character to update."))
     else:
         orig_cat.description = desc_input_new
         db.session.commit() 
-        categories = Category.query.all()
+        categories = Category.query.all() #get updated list
         return redirect(url_for('manage_categories',categories=categories, success_msg="Category updated."))
 
 # READ and display all categories to be managed

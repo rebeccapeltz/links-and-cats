@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", event => {
         let i = this.dataset.idx;
         let catOrigDescription = document.querySelector(`#cat-orig${i}`).innerHTML
         let catNewDescription = document.querySelector(`#cat-new${i}`).value
-        // alert(catNewDescription.value)
+
         let tempForm = document.createElement('form');
         tempForm.setAttribute('action', '/update_category');
         tempForm.setAttribute('method', 'post');
@@ -74,7 +74,29 @@ document.addEventListener("DOMContentLoaded", event => {
       icon.addEventListener("click", showHideUpdate, false)
     }
 
+    function deleteCat(ev) {
+      ev.stopPropagation();
+      let i = this.dataset.idx;
+      let catDescTxt = document.querySelector(`#cat-orig${i}`).innerHTML
+      let tempForm = document.createElement('form');
+
+      let input = document.createElement('input');
+      input.setAttribute('type', 'text');
+      input.setAttribute('name', 'desc-input');
+      input.setAttribute('value', catDescTxt);
+      tempForm.appendChild(input);
+
+      tempForm.setAttribute('action', '/delete_category');
+      tempForm.setAttribute('method', 'post');
+      tempForm.setAttribute('hidden', 'true');
+      document.body.appendChild(tempForm);
+      tempForm.submit();
+    }
     //click on fa-trash-alt and get orignal value and delete it
+    let delIcons = document.querySelectorAll(".fa-trash-alt");
+    for (let icon of delIcons) {
+      icon.addEventListener("click", deleteCat, false)
+    }
   }
 
 
