@@ -85,4 +85,6 @@ a.btn {
 .upd-cat {
   display: none;
 }
-
+.add-form {
+  margin: 2rem 0;
+}
