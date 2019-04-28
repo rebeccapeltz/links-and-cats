@@ -82,9 +82,18 @@ a.btn {
   width: 10rem;
   display: inline-block;
 }
-.upd-cat {
+
+.hide {
   display: none;
 }
+.show-inline {
+  display: inline-block;
+}
+
 .add-form {
   margin: 2rem 0;
+}
+
+.upd-icons{
+  margin: 0 1rem;
 }

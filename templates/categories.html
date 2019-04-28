@@ -52,10 +52,12 @@
   <ul class="list-group">
     {% for cat in categories %}
     <li class="list-group-item cat-item">
+      <span class="upd-icons">
+        <i class="fas fa-trash-alt" data-idx="{{loop.index0}}"></i>
+        <i class="fas fa-edit" data-idx="{{loop.index0}}"></i>
+      </span>
       <span id="cat-orig{{loop.index0}}" class="cat-desc">{{cat.description}}</span>
-      <i class="fas fa-trash-alt" data-idx="{{loop.index0}}"></i>
-      <i class="fas fa-edit" data-idx="{{loop.index0}}"></i>
-      <span class="upd-cat" id="upd-cat{{loop.index0}}">
+      <span class="hide" id="upd-cat{{loop.index0}}">
         <input type="text" id="cat-new{{loop.index0}}" value="{{cat.description}}">
         <button class="cat-man-btn btn btn-primary" data-idx="{{loop.index0}}">Update</button>
       </span>
