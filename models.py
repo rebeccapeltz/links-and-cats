@@ -88,6 +88,8 @@ class Link(db.Model):
     def getPublicPrivateClass(self):
       return "public" if self.public else "private"
 
+    def ownedBy(self,user_id):
+        return self.user_id == user_id
 
 
 class Category(db.Model):

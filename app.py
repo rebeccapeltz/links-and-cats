@@ -73,7 +73,8 @@ def register():
     password_input = request.form.get("password-input")
     confirm_password_input = request.form.get("confirm-password-input")
     # validate
-    if len(validate_user(email_input, firstname_input, lastname_input, password_input, confirm_password_input)) == 0:
+    validation_result = validate_user(email_input, firstname_input, lastname_input, password_input, confirm_password_input)
+    if len(validation_result) == 0:
         # add to database
         user = User(email=email_input, firstname=firstname_input,
                     lastname=lastname_input, password=password_input)
@@ -84,9 +85,9 @@ def register():
         # disconnected session error
         # session["current_user"] = user
         # send to index with success message
-        return render_template("index.html", title="Home", success_msg="Successful user registration.")
+        return redirect(url_for('index', success_msg="Successful user registration."))
     else:
-        return render_template("index.html", title="Home", error_msg="Key in both email and password to login.")
+        return redirect(url_for('index', error_msg=validation_result))
 
 # LOGOUT: logout user
 @app.route("/logout", methods=["POST"])
@@ -166,7 +167,7 @@ def add_link():
         user_id = current_user.id
     # get out if not logged in
     if user_id is None:
-        return redirect(url_for('index', erros_msg="Error: Can't add link unless logged in."))
+        return redirect(url_for('index', error_msg="Error: Can't add link unless logged in."))
 
     categories = Category.query.all()
     # default_entry = {}
