@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded",event=>{
   let option3 = document.querySelector("#option3")
   let publicRow = document.querySelector(".public-row")
   let privateRow = document.querySelector(".private-row")
+  if (option1 && option2 && option3){
   option1.addEventListener("click",event=>{
     event.stopPropagation()
     publicRow.style.display = "flex"
@@ -19,4 +20,5 @@ document.addEventListener("DOMContentLoaded",event=>{
     publicRow.style.display = "none"
     privateRow.style.display = "flex"
   })
+}
 })

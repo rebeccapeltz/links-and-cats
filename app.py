@@ -274,3 +274,9 @@ def delete_link(link_id):
     # go to home with success message
     return redirect(url_for('index', success_msg="Success: Link successfully deleted."))
 
+# MANAGE CATEGORIES ,amage categories
+@app.route("/manage_categories", methods=["GET","POST"])
+def manage_categories():
+    # get categories
+    categories = Category.query.all()
+    return render_template("categories.html", categories=categories)

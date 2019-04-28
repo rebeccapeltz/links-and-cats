@@ -1,6 +1,7 @@
 /* body {
   background-color:#BAD9A2;
 } */
+
 .action {
   width: 60px;
   display: inline-block;
@@ -71,3 +72,14 @@ a.btn {
 .cat-group {
   columns: 2 auto;
 }
+.cat-input-desc{
+  width: 30rem;
+}
+.cat-item {
+  width: 20rem;
+}
+.cat-desc {
+  width: 10rem;
+  display: inline-block;
+}
+

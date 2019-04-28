@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block title %}Form{% endblock %}
+
+
+{% block content %}
+<h1>Link Cat</h1>
+<h2>Categorized Links</h2>
+<h3>Manage Categories</h3>
+
+
+
+{% if error_msg %}
+<div class="alert alert-danger">
+  <strong>Error!</strong> {{error_msg}}
+</div>
+{% endif %}
+{% if success_msg %}
+<div class="alert alert-success">
+  <strong>Success!</strong> {{success_msg}}
+</div>
+{% endif %}
+
+<section>
+
+  <div class="add-form">
+    <form>
+      <div class="form-group">
+        <label for="desc-input">Category Description</label>
+        <input type="text" class="cat-input-desc form-control" name="desc-input" id="desc-input"
+          aria-describedby="desc-input-help" placeholder="Enter category description">
+        <small id="desc-input-help" class="form-text text-muted">Category Description</small>
+      </div>
+      <div>
+        <button type="sumbit" class="btn btn-info btn-large">Add New Category</button>
+      </div>
+    </form>
+  </div>
+
+
+  <!-- <form>
+    <div class="form-group">
+      <label for="desc-input">Category Description</label>
+      <input type="text" class="cat-input-desc form-control" name="desc-input" id="desc-input"
+        aria-describedby="desc-input-help" placeholder="Enter category description">
+      <small id="desc-input-help" class="form-text text-muted">Category Description</small>
+    </div>
+    <div>
+      <button type="sumbit" class="btn btn-info btn-large">Update Category</button>
+    </div>
+  </form> -->
+
+  <ul class="list-group">
+    {% for cat in categories %}
+    <li class="list-group-item cat-item"><span class="cat-desc">{{cat.description}}</span>
+      <i class="fas fa-trash-alt"></i>
+      <i class="fas fa-edit"></i>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<footer>
+  <p>Photo via <a href="https://www.goodfreephotos.com/">Good Free Photos</a></p>
+  <p>Photo via <a href="https://www.freeiconspng.com/images/cat-icon">Cat Icons</a></p>
+</footer>
+{% endblock %}

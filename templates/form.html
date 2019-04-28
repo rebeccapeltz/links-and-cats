@@ -5,7 +5,11 @@
 {% block content %}
 <h1>Link Cat</h1>
 <h2>Categorized Links</h2>
-
+{% if default_entry and default_entry.link_id %}
+<h3>Update Link</h3>
+{% else %}
+<h3>Add Link</h3>
+{% endif %}
 
 
 {% if error_msg %}
