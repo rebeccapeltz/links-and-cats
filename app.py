@@ -154,8 +154,8 @@ def update_link_and_categories(link_id, user_id, url, title, description, catego
         cat_obj = Category.query.filter_by(description=cat).first()
         cat_list.append(cat_obj)
     link.update_categories(cat_list)
-    # db.session.add(link)
-    # db.session.commit()
+    db.session.add(link)
+    db.session.commit()
 
 # ADD LINK: add a new link
 @app.route("/add_link", methods=["GET", "POST"])
@@ -243,7 +243,7 @@ def process_update_link():
     pubpriv_input = request.form.get("pubpriv-input")
     if pubpriv_input == "private":
         public = False
-    link_id = request.form.get("link_id")
+    link_id = request.form.get("link-id")
     url_input = request.form.get("url-input")
     title_input = request.form.get("title-input")
     description_input = request.form.get("description-input")
@@ -251,7 +251,7 @@ def process_update_link():
     print(link_id,user_id, url_input, title_input,
               description_input, category_input, public)
 
-    ##update_link_and_categories(link_id,user_id,url,title, description, categories, public)
+    update_link_and_categories(link_id,user_id,url_input,title_input, description_input, category_input, public)
     return redirect(url_for('index', success_msg="Success: Link successfully updated."))
 
 
