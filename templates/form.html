@@ -29,7 +29,8 @@
 
   <!-- if there is a link_id then its an update otherwise its an add -->
   <form method="post"
-    action="{% if default_entry and default_entry.link_id %}{{url_for('update_link')}}{% else %}{{url_for('add_link')}}{% endif %}">
+    action="{% if default_entry and default_entry.link_id %}{{url_for('process_update_link')}}{% else %}{{url_for('add_link')}}{% endif %}">
+    <input type="hidden" name="link-id" value="{% if default_entry is defined and  default_entry.link_id %}{{default_entry.link_id}}{%endif%}">
     <div class="form-check-inline float-right">
       <label class="form-check-label" for="pubpriv1">
         <input type="radio" {% if default_entry is defined and  default_entry.public %} checked {% endif %}

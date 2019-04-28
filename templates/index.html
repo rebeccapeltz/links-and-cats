@@ -29,7 +29,7 @@
             <label class="btn btn-secondary both-switch">
               <input type="radio" name="options" id="option1" autocomplete="off" checked> Both
             </label>
-            <label class="btn btn-secondary active  public-switch">
+            <label class="btn btn-secondary  public-switch">
               <input type="radio" name="options" id="option2" autocomplete="off"> Public
             </label>
             <label class="btn btn-secondary private-switch">
@@ -39,7 +39,7 @@
 
         </div>
         <div class="col-md-8">
-          <a href="{{ url_for('form') }}" role="button" class="btn btn-info btn-large">Add Link</a>
+          <a href="{{ url_for('add_link') }}" role="button" class="btn btn-info btn-large">Add Link</a>
         </div>
       </div>
 
@@ -56,7 +56,7 @@
               </p>
               <p class="card-text p-y-1">{{l.description}}</p>
               <a href="{{l.url}}" class="card-link" target="_blank"><span class="badge badge-info">Website</span></a>
-              <a href="{{url_for('form')}}" class="card-link" target="_blank"><span
+              <a href="{{url_for('update_link',link_id=l.id)}}" class="card-link" target="_blank"><span
                   class="badge badge-info">Update</span></a>
             </div>
           </div>

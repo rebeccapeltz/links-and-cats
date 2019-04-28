@@ -1,3 +1,6 @@
+/* body {
+  background-color:#BAD9A2;
+} */
 .main {
   margin-top: 70px;
 }
@@ -11,7 +14,6 @@
 .fa-id-badge {
   font-size: 30px;
   color: #6c757d;
-  ;
 }
 
 .dropdown {

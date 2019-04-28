@@ -28,16 +28,25 @@ sess.init_app(app)
 @app.route("/", methods=["POST", "GET"])
 # current_user is session variable for a logged in user
 def index():
+    error_msg = request.args.get("error_msg")
+    success_msg = request.args.get("success_msg")
     current_user = None
     # logged in or not, return all public links
     public_links = Link.query.filter_by(public=True).all()
     private_links = None
-    
+
     if 'current_user' in session:
         current_user = session["current_user"]
-        private_links = Link.query.filter_by(public=False, user_id=current_user.id).all()
-    return render_template("index.html", private_links=private_links, public_links=public_links,title="Home")
-    
+        private_links = Link.query.filter_by(
+            public=False, user_id=current_user.id).all()
+
+    if error_msg:
+        return render_template("index.html", private_links=private_links, public_links=public_links, title="Home", error_msg=error_msg)
+    elif success_msg:
+        return render_template("index.html", private_links=private_links, public_links=public_links, title="Home", success_msg=success_msg)
+    else:
+        return render_template("index.html", private_links=private_links, public_links=public_links, title="Home")
+
 
 # returns empty array if input is valid
 def validate_user(email, firstname, lastname, password, confirm_password):
@@ -110,36 +119,69 @@ def login():
         print(inst)
         return render_template("index.html", error_msg="Problem finding registered user during login.", title="Home")
 
+
 @app.route("/form", methods=["GET"])
 def form():
     categories = Category.query.all()
-    default_entry = {"public": True, "url": "http://www.example.com", "title":"Example","description":"Description","categories":"JavaScript"}
+    default_entry = {"public": True, "url": "http://www.example.com",
+                     "title": "Example", "description": "Description", "categories": "JavaScript"}
     # print(default_entry)
-    return render_template("form.html",categories=categories, default_entry=default_entry)
+    return render_template("form.html", categories=categories, default_entry=default_entry)
 
-def add_link_and_categories(user_id,url,title, description, cat_list, public):
-    link = Link(user_id=user_id,url=url,title=title, description=description, public=public)
+
+def add_link_and_categories(user_id, url, title, description, categories, public):
+    link = Link(user_id=user_id, url=url, title=title,
+                description=description, public=public)
+    # create a list of cat objects from categories
+    cat_list = []
+    for cat in categories:
+        cat_obj = Category.query.filter_by(description=cat).first()
+        cat_list.append(cat_obj)
     link.add_categories(cat_list)
     db.session.add(link)
     db.session.commit()
 
+
+def update_link_and_categories(link_id, user_id, url, title, description, categories, public):
+    link = Link.query.filter_by(id=link_id).first()
+    link.title = title
+    link.description = description
+    link.url = url
+
+    # create a list of cat objects from categories
+    cat_list = []
+    for cat in categories:
+        cat_obj = Category.query.filter_by(description=cat).first()
+        cat_list.append(cat_obj)
+    link.update_categories(cat_list)
+    # db.session.add(link)
+    # db.session.commit()
+
 # ADD LINK: add a new link
 @app.route("/add_link", methods=["GET", "POST"])
 def add_link():
+    user_id = None
+    if 'current_user' in session:
+        current_user = session["current_user"]
+        user_id = current_user.id
+    # get out if not logged in
+    if user_id is None:
+        return redirect(url_for('index', erros_msg="Error: Can't add link unless logged in."))
+
     categories = Category.query.all()
     # default_entry = {}
-    default_entry = {"public": True, "url": "http://www.example.com", "title":"Example","description":"Description","categories":"JavaScript"}
+    default_entry = {"public": True, "url": "http://www.example.com",
+                     "title": "Example", "description": "Description", "categories": "JavaScript"}
     # if GET
     if request.method == "GET":
         # get a list of categories
         categories = Category.query.all()
         # print(categories)
         # call form with categories
-        return render_template("form.html",categories=categories, default_entry=default_entry)
+        return render_template("form.html", categories=categories, default_entry=default_entry)
     elif request.method == "POST":
-        public = True #default
-        # get data from form 
-        user_id = session["current_user"].id
+        public = True  # default
+        # get data from form
         pubpriv_input = request.form.get("pubpriv-input")
         if pubpriv_input == "private":
             public = False
@@ -148,26 +190,70 @@ def add_link():
         description_input = request.form.get("description-input")
         category_input = request.form.getlist("category-input")
         print("cat input", category_input)
-        print(user_id, url_input, title_input, description_input, category_input,public)
+        print(user_id, url_input, title_input,
+              description_input, category_input, public)
+
         # add link and categories
-        # add_link_and_categories(user_id,url_input,title_input, description_input, cat_list, public)
+        add_link_and_categories(
+            user_id, url_input, title_input, description_input, category_input, public)
         # go back to index with success message
-    return redirect(url_for('index',success_msg="Link successfully added."))
+        return redirect(url_for('index', success_msg="Success: Link successfully added."))
 
 # UPDATE LINK: update an existing link
-@app.route("/update_link/<int:link_id>", methods=["GET","POST"])
+@app.route("/update_link/<string:link_id>", methods=["GET"])
 def update_link(link_id):
-    # if GET
-    # get current data using link_id
-    # prepare to update checked categories
+    user_id = None
+    if 'current_user' in session:
+        current_user = session["current_user"]
+        user_id = current_user.id
+    # get out if not logged in
+    if user_id is None:
+        return redirect(url_for('index', error_msg="Error: Can't update link unless logged in."))
 
-    # if POST
+    # get categories
+    categories = Category.query.all()
+
+    # get current data using link_id
+    link = Link.query.filter_by(id=link_id).first()
+    # get a list of string categories in the link
+    cat_str_list=[]
+    for cat in link.categories:
+        cat_str_list.append(cat.description)
+
+    default_entry = {"link_id": link_id, "public": link.public, "url": link.url,
+                     "title": link.title, "description": link.description, "categories": cat_str_list}
+    return render_template("form.html", categories=categories, default_entry=default_entry)
+    
+       
+@app.route("/process_update_link", methods=["POST"])
+def process_update_link():
+    user_id = None
+    if 'current_user' in session:
+        current_user = session["current_user"]
+        user_id = current_user.id
+
+    # get out if not logged in
+    if user_id is None:
+        return redirect(url_for('index', error_msg="Error: Can't update link unless logged in."))
+
+    print("process update")
     # get data from form
-    # update link
-    # remove all categories
-    # add categories to link
-    # rerun update to stay on form
-    return render_template("form.html")
+    public = True  # default
+    # get data from form
+    pubpriv_input = request.form.get("pubpriv-input")
+    if pubpriv_input == "private":
+        public = False
+    link_id = request.form.get("link_id")
+    url_input = request.form.get("url-input")
+    title_input = request.form.get("title-input")
+    description_input = request.form.get("description-input")
+    category_input = request.form.getlist("category-input")
+    print(link_id,user_id, url_input, title_input,
+              description_input, category_input, public)
+
+    ##update_link_and_categories(link_id,user_id,url,title, description, categories, public)
+    return redirect(url_for('index', success_msg="Success: Link successfully updated."))
+
 
 # DELETE LINK delete an existing link
 @app.route("/delete_link/<int:link_id>", methods=["POST"])

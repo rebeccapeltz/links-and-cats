@@ -74,6 +74,13 @@ class Link(db.Model):
         for category in category_list:
             self.link_category.append(Link_Category(link=self, category=category))
             db.session.commit()
+
+    def update_categories(self, category_list):
+        # don't attempt a merge - just remove all and add all
+        self.link_category.clear()
+        for category in category_list:
+            self.link_category.append(Link_Category(link=self, category=category))
+            db.session.commit()
     
     def __repr__(self):
         return f"Link: id {self.id} url: {self.url}"
