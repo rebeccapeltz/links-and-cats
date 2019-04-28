@@ -274,15 +274,54 @@ def delete_link(link_id):
     # go to home with success message
     return redirect(url_for('index', success_msg="Success: Link successfully deleted."))
 
-# MANAGE CATEGORIES ,amage categories
-@app.route("/manage_categories", methods=["GET","POST"])
+# add, delete categories
+
+def checkForDuplicateCat(new_cat):
+    is_duplicate = False
+    categories = Category.query.all()
+    for cat in categories:
+        if new_cat == cat.description:
+            is_duplicate = True
+            break
+    # print(new_cat)
+    return is_duplicate
+
+# ADD new category
+@app.route("/add_category", methods=["POST"])
+def add_category():
+    desc_input = request.form.get("desc-input") #add
+    # check for duplicate
+    if checkForDuplicateCat(desc_input):
+        categories = Category.query.all()
+        return redirect(url_for('manage_categories',categories=categories, error_msg="Duplicate categories not allowed."))
+
+    new_cat = Category(description=desc_input)
+    db.session.add(new_cat)
+    db.session.commit()
+    categories = Category.query.all()
+    return redirect(url_for('manage_categories',categories=categories, success_msg="Category updated."))
+
+
+# UPDATE a category
+@app.route("/update_category", methods=["POST"])
+def update_category():
+    desc_input_orig = request.form.get("desc-input-orig") #update
+    desc_input_new = request.form.get("desc-input-new") #update
+
+    print(desc_input_orig, desc_input_new)
+    orig_cat = Category.query.filter_by(description=desc_input_orig).first()
+    #check for duplicate
+    if len(desc_input_new) == 0: #error
+        return redirect(url_for('manage_categories',categories=categories, error_msg="Category must have at least 1 character to update."))
+    else:
+        orig_cat.description = desc_input_new
+        db.session.commit() 
+        categories = Category.query.all()
+        return redirect(url_for('manage_categories',categories=categories, success_msg="Category updated."))
+
+# READ and display all categories to be managed
+@app.route("/manage_categories", methods=["GET"])
 def manage_categories():
     # get categories
     categories = Category.query.all()
-    if request.method == "GET":
-        return render_template("categories.html", categories=categories)
-    else:
-        desc_input_orig = request.form.get("desc-input-orig")
-        desc_input_new = request.form.get("desc-input-new")
-        print(desc_input_orig, desc_input_new)
-        return render_template("categories.html", categories=categories)
+    return render_template("categories.html", categories=categories)

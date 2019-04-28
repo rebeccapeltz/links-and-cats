@@ -23,7 +23,7 @@
 <section>
 
   <div class="add-form">
-    <form>
+    <form action="/add_category" method="post">
       <div class="form-group">
         <label for="desc-input">Category Description</label>
         <input type="text" class="cat-input-desc form-control" name="desc-input" id="desc-input"
@@ -35,19 +35,6 @@
       </div>
     </form>
   </div>
-
-
-  <!-- <form>
-    <div class="form-group">
-      <label for="desc-input">Category Description</label>
-      <input type="text" class="cat-input-desc form-control" name="desc-input" id="desc-input"
-        aria-describedby="desc-input-help" placeholder="Enter category description">
-      <small id="desc-input-help" class="form-text text-muted">Category Description</small>
-    </div>
-    <div>
-      <button type="sumbit" class="btn btn-info btn-large">Update Category</button>
-    </div>
-  </form> -->
 
   <ul class="list-group">
     {% for cat in categories %}

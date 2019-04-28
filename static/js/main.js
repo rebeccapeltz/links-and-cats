@@ -30,12 +30,12 @@ document.addEventListener("DOMContentLoaded", event => {
     let catManBtns = document.querySelectorAll(".cat-man-btn")
     for (let btn of catManBtns) {
       btn.addEventListener('click', function (event) {
-        let i = $(this).data('idx');
+        let i = this.dataset.idx;
         let catOrigDescription = document.querySelector(`#cat-orig${i}`).innerHTML
         let catNewDescription = document.querySelector(`#cat-new${i}`).value
         // alert(catNewDescription.value)
         let tempForm = document.createElement('form');
-        tempForm.setAttribute('action', '/manage_categories');
+        tempForm.setAttribute('action', '/update_category');
         tempForm.setAttribute('method', 'post');
         tempForm.setAttribute('hidden', 'true');
         //add original value
