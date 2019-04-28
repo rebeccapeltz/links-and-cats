@@ -82,4 +82,7 @@ a.btn {
   width: 10rem;
   display: inline-block;
 }
+.upd-cat {
+  display: none;
+}
 

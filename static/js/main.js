@@ -52,6 +52,15 @@ document.addEventListener("DOMContentLoaded", event => {
     })
 
     //click on fa-edit and show input and submit button
+    // upd-cat{{loop.index0}}
+    let editIcons = document.querySelectorAll(".fa-edit");
+    for (let icon of  editIcons){
+      icon.addEventListener("click",function(event){
+        let i = $(this).data('idx');
+        let editSpan = document.querySelector(`#upd-cat${i}`)
+        editSpan.style.display = "inline-block";
+      })
+    }
 
     //click on fa-trash-alt and get orignal value and delete it
   }
