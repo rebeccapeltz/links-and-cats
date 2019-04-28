@@ -279,4 +279,10 @@ def delete_link(link_id):
 def manage_categories():
     # get categories
     categories = Category.query.all()
-    return render_template("categories.html", categories=categories)
+    if request.method == "GET":
+        return render_template("categories.html", categories=categories)
+    else:
+        desc_input_orig = request.form.get("desc-input-orig")
+        desc_input_new = request.form.get("desc-input-new")
+        print(desc_input_orig, desc_input_new)
+        return render_template("categories.html", categories=categories)

@@ -51,9 +51,13 @@
 
   <ul class="list-group">
     {% for cat in categories %}
-    <li class="list-group-item cat-item"><span class="cat-desc">{{cat.description}}</span>
-      <i class="fas fa-trash-alt"></i>
-      <i class="fas fa-edit"></i>
+    <li class="list-group-item cat-item">
+      <span id="cat-orig{{loop.index0}}" class="cat-desc">{{cat.description}}</span>
+      <i class="fas fa-trash-alt" data-idx="{{loop.index0}}"></i>
+      <i class="fas fa-edit" data-idx="{{loop.index0}}"></i>
+      <input type="text" id="cat-new{{loop.index0}}" value="{{cat.description}}">
+      <button class="cat-man-btn btn btn-primary" data-idx="{{loop.index0}}">Update</button>
+     
     </li>
     {% endfor %}
   </ul>
