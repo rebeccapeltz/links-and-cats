@@ -1,6 +1,10 @@
 /* body {
   background-color:#BAD9A2;
 } */
+.action {
+  width: 60px;
+  display: inline-block;
+}
 .main {
   margin-top: 70px;
 }
@@ -8,6 +12,9 @@
 .fa-cat {
   font-size: 30px;
   margin-right: 10px;
+  color: white;
+}
+a.btn {
   color: white;
 }
 

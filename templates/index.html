@@ -55,9 +55,11 @@
                 {% endfor %}
               </p>
               <p class="card-text p-y-1">{{l.description}}</p>
-              <a href="{{l.url}}" class="card-link" target="_blank"><span class="badge badge-info">Website</span></a>
-              <a href="{{url_for('update_link',link_id=l.id)}}" class="card-link" target="_blank"><span
+              <a href="{{l.url}}" class="action card-link" target="_blank"><span class="badge badge-info">Website</span></a>
+              <a href="{{url_for('update_link',link_id=l.id)}}" class="action card-link"><span
                   class="badge badge-info">Update</span></a>
+              <a href="{{url_for('delete_link',link_id=l.id)}}" class="card-link"><span
+                  class="badge badge-info">Delete</span></a>
             </div>
           </div>
         </div>

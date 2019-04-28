@@ -256,9 +256,20 @@ def process_update_link():
 
 
 # DELETE LINK delete an existing link
-@app.route("/delete_link/<int:link_id>", methods=["POST"])
+@app.route("/delete_link/<string:link_id>", methods=["POST"])
 def delete_link(link_id):
-    # delete link category
-    # delete link
+    user_id = None
+    if 'current_user' in session:
+        current_user = session["current_user"]
+        user_id = current_user.id
+
+    # get out if not logged in
+    if user_id is None:
+        return redirect(url_for('index', error_msg="Error: Can't update link unless logged in."))
+
+    link = Link.query.get(link_id)
+    db.session.delete(link)
+    db.session.commit()
     # go to home with success message
-    print(link_id)
+    return redirect(url_for('index', success_msg="Success: Link successfully deleted."))
+
