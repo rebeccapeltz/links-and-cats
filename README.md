@@ -14,6 +14,26 @@ If you want to manually delete data from tables, open a SQL window (pgAdmin 4)
 `delete from users`
 
 
+## Deployed to Heroku
+[Link Cat](https://frozen-headland-19585.herokuapp.com/)
+
+### Instructions for Deployment to Heroku
+## Steps to depoly to heroku
+
+1. `virtualenv env`
+1. `pip3 install flask`
+1. `pip3 install gunicorn`
+1. `git init`
+1. add .gitignore with `env`
+1. add Procfile with `web: gunicorn app:app`
+1. run `pip3 freeze > requirements.txt`
+1. `git commit -m"...`
+1. `heroku login`
+1. `heroku create`
+1. `git push heroku master`
+1. `heroku open`
+
+
 
 ## Create Database
 1. Navigate to https://www.heroku.com/, and create an account if you don’t already have one.
