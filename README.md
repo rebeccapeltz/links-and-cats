@@ -1,4 +1,23 @@
 # final-project
+## "Link Cat": Categorized Links
+
+![Link Cat homepage](link-cat.png)
+
+This app provides a way for the user to create an account and then save and categorize links that they find on the web.  
+
+At this stage of dvelopment that user can 
+- create an account
+- create public and private links
+- view all public links (and toggle between) viewing "just public", "just private" or both public and private links
+- create, delete, and update categories  
+
+An instance of this app has been deployed to Heroku and can be seen here:  
+### Deployed to Heroku
+[Link Cat](https://frozen-headland-19585.herokuapp.com/)
+
+## Backlog features
+provide categorical filtering
+provide an API so that front end frameworks and Vanilla JavaScript can take advantage of this data.
 
 ## Data
 There is a many to many relationship between links and categories.  To bootstrap the data you can run these scripts in this order.
@@ -14,8 +33,7 @@ If you want to manually delete data from tables, open a SQL window (pgAdmin 4)
 `delete from users`
 
 
-## Deployed to Heroku
-[Link Cat](https://frozen-headland-19585.herokuapp.com/)
+
 
 ### Instructions for Deployment to Heroku
 ## Steps to depoly to heroku
